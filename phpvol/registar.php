@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h2>Inserido</h2>
-    <a href="http://localhost:80" target="_blank" class="btn btn-main1">Main Page</a>
+    <a href="http://localhost:80" class="btn btn-main1">Main Page</a>
     <?php
 
     $servername = "db";
