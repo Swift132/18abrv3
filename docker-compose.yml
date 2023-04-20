@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+
+  python:
+    image: python:3.9
+    tty: true
+    container_name: python
+    volumes:
+      - ./phvol:/usr/src/app
+
+  node:
+    image: node:8-slim
+    tty: true
+    container_name: node
+    volumes: 
+      - ./nodevol:/home/node/app
+  
+  php:
+    build: ./dockerfile/.
+    container_name: php
+    ports:
+      - 80:80
+    volumes:
+      - ./phpvol:/var/www/html
+
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - 9906:3306
+    volumes:
+      - ./dbvol:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: xpto
+      MYSQL_DATABASE: xpto
+      MYSQL_USER: xpto
+      MYSQL_PASSWORD: xpto
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db
+    depends_on:
+      - db
+
+  mongodb:
+    image: mongo:4.0
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodbvol:/data/db
+    depends_on:
+      - db
+  
+  redis:
+    image: redis:6.2
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redisvol:/data
+    depends_on:
+      - db
